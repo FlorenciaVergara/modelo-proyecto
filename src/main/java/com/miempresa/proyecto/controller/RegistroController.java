@@ -52,7 +52,7 @@ public class RegistroController {
         }
     }
 
-    /*
+    /* Metodo anterior sin limpieza del CUIT
      * @GetMapping("/cuit/{cuit}")
      * public ResponseEntity<String> obtenerCodigoPorCuit(@PathVariable String cuit)
      * {
