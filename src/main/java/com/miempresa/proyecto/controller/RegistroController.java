@@ -16,7 +16,9 @@ public class RegistroController {
         this.codigoService = codigoService;
     }
 
-    /* Version anterior del método crearRegistro (sin validación de CUIT)
+    /*
+     * Version anterior del método crearRegistro (sin validación de CUIT)
+     * 
      * @PostMapping
      * public ResponseEntity<String> crearRegistro(@RequestBody String cuit) {
      * int nuevoCodigo = codigoService.generarNuevoCodigo(cuit);
@@ -29,7 +31,8 @@ public class RegistroController {
         // Eliminar todo lo que no sea número (Por ejemplo, guiones o espacios)
         String cuitLimpio = cuit.replaceAll("[^\\d]", "");
 
-        // Verificar que tenga exactamente 11 dígitos(Solo verifica la longitud, no la validez del CUIT)
+        // Verificar que tenga exactamente 11 dígitos(Solo verifica la longitud, no la
+        // validez del CUIT)
         if (cuitLimpio.length() != 11) {
             return ResponseEntity.badRequest().body("CUIT inválido. Debe tener exactamente 11 dígitos.");
         }
@@ -49,24 +52,11 @@ public class RegistroController {
         }
     }
 
-    @GetMapping("/cuit/{cuit}")
-    public ResponseEntity<String> obtenerCodigoPorCuit(@PathVariable String cuit) {
-        int codigo = codigoService.obtenerCodigoPorCuit(cuit);
-        if (codigo != -1) {
-            return ResponseEntity.ok("Código asociado: " + codigo);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró código para el CUIT ingresado: " + cuit);
-        }
-    }
-
     /*
      * @GetMapping("/cuit/{cuit}")
      * public ResponseEntity<String> obtenerCodigoPorCuit(@PathVariable String cuit)
      * {
-     * String cuitLimpio = cuit.replaceAll("[^\\d]", ""); // elimina todo lo que no
-     * sea número
-     * int codigo = codigoService.obtenerCodigoPorCuit(cuitLimpio);
+     * int codigo = codigoService.obtenerCodigoPorCuit(cuit);
      * if (codigo != -1) {
      * return ResponseEntity.ok("Código asociado: " + codigo);
      * } else {
@@ -74,7 +64,19 @@ public class RegistroController {
      * .body("No se encontró código para el CUIT ingresado: " + cuit);
      * }
      * }
-     * 
      */
+
+    @GetMapping("/cuit/{cuit}")
+      public ResponseEntity<String> obtenerCodigoPorCuit(@PathVariable String cuit)
+      {
+      String cuitLimpio = cuit.replaceAll("[^\\d]", ""); // elimina todo lo que no sea número
+      int codigo = codigoService.obtenerCodigoPorCuit(cuitLimpio);
+      if (codigo != -1) {
+      return ResponseEntity.ok("Código asociado: " + codigo);
+      } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND)
+      .body("No se encontró código para el CUIT ingresado: " + cuit);
+      }
+      }
 
 }
